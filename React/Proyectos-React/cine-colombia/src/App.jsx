@@ -6,13 +6,14 @@ import buscadorIcono from "./buscador.svg";
 const API_URL = "http://www.omdbapi.com/?apikey=e416a5db";
 function App() {
   const [movies, setMovies] = useState([]);
+  const [busquedaParam, setBusquedaParam] = useState("");
   const buscadorCine = async (titulo) => {
     const response = await fetch(`${API_URL}&s=${titulo}`);
     const data = await response.json();
     setMovies(data.Search);
   };
   useEffect(() => {
-    buscadorCine("superman");
+    buscadorCine("rocky");
   }, []);
   return (
     <div className="app">
@@ -20,13 +21,17 @@ function App() {
       <div className="busqueda">
         <input
           placeholder="Buscador de Peliculas"
-          value="Spiderman"
-          onChange={() => {}}
+          value={busquedaParam}
+          onChange={(e) => setBusquedaParam(e.target.value)}
         />
-        <img src={buscadorIcono} alt="Buscador" onClick={() => {}} />
+        <img
+          src={buscadorIcono}
+          alt="Buscador"
+          onClick={() => buscadorCine(busquedaParam)}
+        />
       </div>
       {movies?.length > 0 ? (
-        <div className="container">
+        <div className="contenedor">
           {movies.map((movie, index) => (
             <TarjetaPelicula movie1={movie} key={index} />
           ))}
